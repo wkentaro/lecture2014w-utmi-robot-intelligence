@@ -20,13 +20,11 @@ def noise_test():
         score = test_mnist(corruption_level=cl, epochs=n_samples, verbose=False)
         scores.append(score)
         x.append(cl)
-    scores = np.array(score)
+    scores = np.array(scores)
     x = np.array(x)
 
-    with open('noise_test_{0}.txt'.format(time.time()), 'w') as f:
-        f.write('Result\n')
-        f.write('mean: {0}\n'.format(scores.mean()))
-        f.write('var: {0}\n'.format(scores.var()))
+    # save scores
+    np.savez('noise_test_mnist_scores_{0}.pkl'.format(n_samples), scores)
 
     ax = plt.subplot()
     ax.plot(x, scores)
