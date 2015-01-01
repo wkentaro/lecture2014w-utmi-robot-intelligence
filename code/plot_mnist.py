@@ -9,7 +9,7 @@ from sklearn.datasets import fetch_mldata
 
 
 def plot_mnist():
-    mnist = fetch_mldata('MNIST original', data_home='.')
+    mnist = fetch_mldata('MNIST original')
 
     p = np.random.randint(0, len(mnist.data), 25)
     for i, (data, label) in enumerate(zip(mnist.data[p], mnist.target[p])):

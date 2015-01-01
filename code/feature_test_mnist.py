@@ -21,7 +21,7 @@ import nn
 
 def feature_test_mnist(corruption_level=0.0, epochs=10000):
     # load train data
-    mnist = fetch_mldata('MNIST original', data_home='.')
+    mnist = fetch_mldata('MNIST original')
     y = mnist.target
     target_names = np.unique(y)
     # get feature & create input
