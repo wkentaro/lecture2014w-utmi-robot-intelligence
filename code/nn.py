@@ -1,6 +1,7 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# main.py
+# nn.py
+# author: Kentaro Wada <www.kentaro.wada@gmail.com>
 import numpy as np
 
 
