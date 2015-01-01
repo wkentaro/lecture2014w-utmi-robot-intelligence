@@ -15,7 +15,7 @@ from test_mnist import test_mnist
 def noise_test():
     scores = []
     x = []
-    n_samples = 10000
+    n_samples = 70000
     for cl in np.arange(0, 26) * 0.01:
         score = test_mnist(corruption_level=cl, epochs=n_samples, verbose=False)
         scores.append(score)
@@ -24,7 +24,7 @@ def noise_test():
     x = np.array(x)
 
     # save scores
-    np.savez('noise_test_mnist_scores_{0}.pkl'.format(n_samples), scores)
+    np.savez('../output/noise_test_mnist_scores_{0}.npz'.format(n_samples), scores)
 
     ax = plt.subplot()
     ax.plot(x, scores)
