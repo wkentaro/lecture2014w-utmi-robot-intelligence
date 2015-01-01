@@ -39,7 +39,7 @@ def test_mnist(
     elif nh > 1:
         pass
     else:
-        nh *= X.shape[1]
+        nh = int(nh * X.shape[1])
     clf = nn.NN(ni=X.shape[1], nh=nh, no=len(target_names),
             corruption_level=corruption_level)
 
@@ -63,7 +63,7 @@ def test_mnist(
         print confusion_matrix(y_true=y_test, y_pred=y_pred)
         print score
 
-    return score
+    return score, clf
 
 
 if __name__ == '__main__':
