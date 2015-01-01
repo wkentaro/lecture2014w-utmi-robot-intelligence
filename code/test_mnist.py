@@ -17,7 +17,12 @@ from sklearn.metrics import (
 import nn
 
 
-def test_mnist(corruption_level=0.0, epochs=10000, verbose=False):
+def test_mnist(
+        corruption_level=0.0,
+        nh=100,
+        epochs=10000,
+        verbose=False
+        ):
     # load train data
     mnist = fetch_mldata('MNIST original')
     X = mnist.data
@@ -28,7 +33,15 @@ def test_mnist(corruption_level=0.0, epochs=10000, verbose=False):
     X = X.astype(np.float64)
     X /= X.max()
 
-    clf = nn.NN(ni=X.shape[1], nh=100, no=len(target_names), corruption_level=0.0)
+    # get classifier
+    if nh <= 0:
+        raise ValueError('nh should be >0')
+    elif nh > 1:
+        pass
+    else:
+        nh *= X.shape[1]
+    clf = nn.NN(ni=X.shape[1], nh=nh, no=len(target_names),
+            corruption_level=corruption_level)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y)
 
