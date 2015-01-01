@@ -4,11 +4,9 @@
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
 import os
-import cPickle
 import numpy as np
 import collections
 
-# from sklearn.datasets import fetch_mldata
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import (
@@ -18,6 +16,7 @@ from sklearn.metrics import (
         )
 
 import nn
+
 
 def load_pkl(filename):
     with open(filename, 'rb') as f:
@@ -38,7 +37,11 @@ def load_cifar(data_dir_path='../data/cifar-10-batches-py'):
     return MLdata(X, y)
 
 
-def test_cifar(corruption_level=0.0, epochs=10000, verbose=False):
+def test_cifar(
+        corruption_level=0.0,
+        epochs=10000,
+        verbose=False
+        ):
     # load train data
     cifar = load_cifar()
     X = cifar.data
@@ -51,7 +54,7 @@ def test_cifar(corruption_level=0.0, epochs=10000, verbose=False):
 
     if verbose is True:
         print("Layer size: first: {0}, second: {1}, final: {2}".format(X.shape[1], 100, len(target_names)))
-    clf = nn.NN(ni=X.shape[1], nh=100, no=len(target_names), corruption_level=0.0)
+    clf = nn.NN(ni=X.shape[1], nh=100, no=len(target_names), corruption_level=corruption_level)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y)
 
