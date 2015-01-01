@@ -17,7 +17,7 @@ def plot_mnist():
         plt.axis('off')
         plt.imshow(data.reshape((28,28)), cmap=plt.cm.gray_r, interpolation='nearest')
         plt.title('{0}'.format(label))
-    plt.savefig('mnist.png')
+    plt.savefig('../output/mnist.png')
 
 
 if __name__ == '__main__':

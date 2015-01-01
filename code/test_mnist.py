@@ -17,9 +17,9 @@ from sklearn.metrics import (
 import nn
 
 
-def test_mnist(corruption_level=0.0, epochs=10000):
+def test_mnist(corruption_level=0.0, epochs=10000, verbose=False):
     # load train data
-    mnist = fetch_mldata('MNIST original', data_home='.')
+    mnist = fetch_mldata('MNIST original')
     X = mnist.data
     y = mnist.target
     target_names = np.unique(y)
@@ -44,10 +44,11 @@ def test_mnist(corruption_level=0.0, epochs=10000):
         y_pred[i] = np.argmax(o)
     # print y_pred
 
-    print classification_report(y_true=y_test, y_pred=y_pred)
-    print confusion_matrix(y_true=y_test, y_pred=y_pred)
     score = accuracy_score(y_true=y_test, y_pred=y_pred)
-    print score
+    if verbose is True:
+        print classification_report(y_true=y_test, y_pred=y_pred)
+        print confusion_matrix(y_true=y_test, y_pred=y_pred)
+        print score
 
     return score
 

@@ -16,7 +16,7 @@ def plot_digits():
         plt.axis('off')
         plt.imshow(data, cmap=plt.cm.gray_r, interpolation='nearest')
         plt.title('{0}'.format(label))
-    plt.savefig('digits.png')
+    plt.savefig('../output/digits.png')
 
 
 if __name__ == '__main__':

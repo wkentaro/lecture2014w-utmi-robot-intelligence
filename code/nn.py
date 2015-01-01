@@ -11,22 +11,25 @@ def sigmoid(x):
 def dsigmoid(x):
     return sigmoid(x) * (1. - sigmoid(x))
 
+
 def dsigmoid2(y):
     return y * (1. - y)
 
+
 class NN(object):
     def __init__(self, ni, nh, no, corruption_level=0.0):
-        self.corruption_level=corruption_level
+        self.corruption_level = corruption_level
 
         # activations for nodes
-        self.ni = ni + 1 # +1 for bias node
-        self.nh = nh + 1 # +1 for bias node
+        self.ni = ni + 1  # +1 for bias node
+        self.nh = nh + 1  # +1 for bias node
         self.no = no
 
         # create weights
-        self.wi = np.random.uniform(-1., 1., (self.nh, self.ni)) # input layer  -> hidden layer
-        self.wo = np.random.uniform(-1., 1., (self.no, self.nh)) # hidden layer -> output layer
-
+        # input layer  -> hidden layer
+        self.wi = np.random.uniform(-1., 1., (self.nh, self.ni))
+        # hidden layer -> output layer
+        self.wo = np.random.uniform(-1., 1., (self.no, self.nh))
 
     def fit(self, X, y_train, learning_rate=0.4, epochs=10000):
         """Update the weights in nn using training datasets"""
@@ -43,8 +46,9 @@ class NN(object):
             x = X[i]
 
             # add noise to the input
-            p = np.random.binomial(n=1, p=1 - self.corruption_level, size=len(x))
-            rnd_samples = np.where(p==0)
+            p = np.random.binomial(n=1, p=1 - self.corruption_level,
+                                   size=len(x))
+            rnd_samples = np.where(p == 0)
             for rs in rnd_samples:
                 x[rs] *= np.random.random()
 
@@ -63,7 +67,6 @@ class NN(object):
             delta1 = dsigmoid(u_z) * np.dot(self.wo.T, delta2)
             # OR delta1 = dsigmoid2(z) * np.dot(self.wo.T, delta2)
 
-
             # update hidden layer weight using
             # error in hidden layer
             x = np.atleast_2d(x)
@@ -76,11 +79,10 @@ class NN(object):
             delta2 = np.atleast_2d(delta2)
             self.wo -= learning_rate * np.dot(delta2.T, z)
 
-
     def predict(self, x):
         """Predict the solution for test data"""
         x = np.array(x)
-        x = np.insert(x, 0, 1) # for bias
+        x = np.insert(x, 0, 1)  # for bias
         # forward propagation
         z = sigmoid(np.dot(self.wi, x))
         y = sigmoid(np.dot(self.wo, z))
