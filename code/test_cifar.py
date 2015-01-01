@@ -49,7 +49,8 @@ def test_cifar(corruption_level=0.0, epochs=10000, verbose=False):
     X = X.astype(np.float64)
     X /= X.max()
 
-    print("Layer size: first: {0}, second: {1}, final: {2}".format(X.shape[1], 100, len(target_names)))
+    if verbose is True:
+        print("Layer size: first: {0}, second: {1}, final: {2}".format(X.shape[1], 100, len(target_names)))
     clf = nn.NN(ni=X.shape[1], nh=100, no=len(target_names), corruption_level=0.0)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y)
