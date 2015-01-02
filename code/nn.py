@@ -9,11 +9,7 @@ def sigmoid(x):
     return 1. / (1. + np.exp(-x))
 
 
-def dsigmoid(x):
-    return sigmoid(x) * (1. - sigmoid(x))
-
-
-def dsigmoid2(y):
+def dsigmoid(y):
     return y * (1. - y)
 
 
@@ -54,19 +50,15 @@ class NN(object):
                 x[rs] *= np.random.random()
 
             # forward propagation
-            u_z = np.dot(self.wi, x)
-            z = sigmoid(u_z)
-            u_y = np.dot(self.wo, z)
-            y = sigmoid(u_y)
+            z = sigmoid(np.dot(self.wi, x))
+            y = sigmoid(np.dot(self.wo, z))
 
             # compute error in output layer
-            delta2 = dsigmoid(u_y) * (y - y_train[i])
-            # OR delta2 = dsigmoid2(y) * (y - y_train[i])
+            delta2 = dsigmoid(y) * (y - y_train[i])
 
             # update weight in hidden layer
             # using the error in output layer
-            delta1 = dsigmoid(u_z) * np.dot(self.wo.T, delta2)
-            # OR delta1 = dsigmoid2(z) * np.dot(self.wo.T, delta2)
+            delta1 = dsigmoid(z) * np.dot(self.wo.T, delta2)
 
             # update hidden layer weight using
             # error in hidden layer
