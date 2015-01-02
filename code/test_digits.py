@@ -31,7 +31,7 @@ def test_digits():
     label_train = LabelBinarizer().fit_transform(y_train)
     label_test = LabelBinarizer().fit_transform(y_test)
 
-    clf.fit(X_train, label_train, epochs=10000)
+    clf.fit(X_train, label_train, epochs=10000, learning_rate=0.4, inertia_rate=0.3)
 
     y_pred = np.zeros(len(X_test))
     for i, xt in enumerate(X_test):

@@ -19,6 +19,8 @@ import nn
 
 def test_mnist(
         corruption_level=0.0,
+        learning_rate=0.4,
+        inertia_rate=0.3
         nh=100,
         epochs=10000,
         verbose=False,
@@ -50,7 +52,11 @@ def test_mnist(
     label_train = LabelBinarizer().fit_transform(y_train)
     label_test = LabelBinarizer().fit_transform(y_test)
 
-    clf.fit(X_train, label_train, epochs=epochs)
+    clf.fit(X_train,
+            label_train,
+            epochs=epochs,
+            learning_rate=learning_rate,
+            inertia_rate=inertia_rate)
 
     y_pred = np.zeros(len(X_test))
     for i, xt in enumerate(X_test):
@@ -68,4 +74,4 @@ def test_mnist(
 
 
 if __name__ == '__main__':
-    test_mnist()
+    test_mnist(verbose=True)
