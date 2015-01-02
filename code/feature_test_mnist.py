@@ -3,7 +3,6 @@
 # feature_test_mnist.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
-
 import numpy as np
 import cv2
 
@@ -18,31 +17,58 @@ from sklearn.metrics import (
 
 import nn
 
+from dA import dA
 
-def feature_test_mnist(corruption_level=0.0, epochs=10000):
+
+def get_dA_hidden(X, corruption_level):
     # load train data
     mnist = fetch_mldata('MNIST original')
+    X = mnist.data
+    # construct dA
+    ni = X.shape[1]
+    nh = int(0.06*ni)
+    da = dA(input=X, n_visible=ni, n_hidden=nh)
+    # train dA
+    for epoch in xrange(training_epochs):
+        da.train(lr=learning_rate, corruption_level=corruption_level)
+        cost = da.negative_log_likelihood(corruption_level=corruption_level)
+        print >> sys.stderr, 'Training epoch %d, cost is ' % epoch, cost
+        learning_rate *= 0.95
+    # get hidden layer
+    X_hidden = da.get_hidden_values(input=X)
+    return X_hidden
+
+
+def feature_test_mnist(
+        corruption_level=0.0,
+        nh=100,
+        epochs=10000,
+        verbose=False,
+        ):
+    # load train data
+    mnist = fetch_mldata('MNIST original')
+    X_origin = mnist.data
     y = mnist.target
     target_names = np.unique(y)
+
     # get feature & create input
-    X = []
-    for data in mnist.data:
-        img = data.reshape((28, 28))
-        # fd, f_img = hog(img, orientations=8, pixels_per_cell=(16, 16),
-        #                     cells_per_block=(1, 1), visualise=True)
-        # f_img = cv2.Canny(img, 50, 200)
-        img[img < 122] = 0
-        img[img > 255] = 255
-        f_img = img
-        X.append(f_img.reshape(-1,))
-    X = np.array(X)
+    X = get_dA_hidden(X=X_origin, corruption_level=0.0)
 
     # standardize
     X = X.astype(np.float64)
     X /= X.max()
 
-    clf = nn.NN(ni=X.shape[1], nh=100, no=len(target_names), corruption_level=0.0)
+    # get classifier
+    if nh <= 0:
+        raise ValueError('nh should be >0')
+    elif nh > 1:
+        pass
+    else:
+        nh = int(nh * X.shape[1])
+    clf = nn.NN(ni=X.shape[1], nh=nh, no=len(target_names),
+            corruption_level=corruption_level)
 
+    # split data to train & test
     X_train, X_test, y_train, y_test = train_test_split(X, y)
 
     # convert train data to 1-of-k expression
@@ -57,12 +83,13 @@ def feature_test_mnist(corruption_level=0.0, epochs=10000):
         y_pred[i] = np.argmax(o)
     # print y_pred
 
-    print classification_report(y_true=y_test, y_pred=y_pred)
-    print confusion_matrix(y_true=y_test, y_pred=y_pred)
     score = accuracy_score(y_true=y_test, y_pred=y_pred)
-    print score
+    if verbose is True:
+        print classification_report(y_true=y_test, y_pred=y_pred)
+        print confusion_matrix(y_true=y_test, y_pred=y_pred)
+        print score
 
-    return score
+    return score, clf
 
 
 if __name__ == '__main__':
