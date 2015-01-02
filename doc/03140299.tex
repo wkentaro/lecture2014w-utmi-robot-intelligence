@@ -82,17 +82,50 @@ The MNIST database of handwritten digits
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ニューラルネット学習シミュレーション}
 実験に利用したMNISTデータセットは, 28x28のグレースケールの手書き数字
-画像データである. 画像に対する前処理はなしで
+画像データである. 画像に対する前処理はなしで7000件のデータに対して,
+学習率と慣性項係数のそれぞれに関して複数の値を用いて識別正解率の変化を調べた. 
+
+学習率を0.02から0.38まで0.02ずつ変化させ, 学習率と識別正解率の関係を表したのが
+図\ref{fig:learning-rate-score-var}である. 
+図から, 学習率が0.3のときに最も識別正解率が高いことがわかる. 
+今後の解析では学習率を0.3として実験を行う. なお, この時慣性項の値は0とした. 
+\begin{figure}[hbtp]
+  \centering
+  \includegraphics[width=0.6\textwidth]{assets/img/learning_rate_test_mnist_70000.pdf}
+  \caption{学習率と識別正解率の関係}
+  \label{fig:learning-rate-score-var}
+\end{figure}
+
+慣性項の係数を0.0から0.38まで変化させ, 慣性項係数と識別正解率の関係を表したのが
+図\ref{fig:inertia-rate-score-var}である. 
+% \begin{figure}[hbtp]
+%   \centering
+%   \includegraphics[width=0.6\textwidth]{assets/img/inertia_rate_test_mnist_70000.pdf}
+%   \caption{慣性項の係数と識別正解率の関係}
+%   \label{fig:inertia-rate-score-var}
+% \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ノイズによる性能変化}
+ノイズによる識別性能の変化について検証した. ノイズは, ある確率で画像のピクセル値を
+ランダムな値に変化させるということで発生させた. 図\ref{fig:noise-test-score-var}
+はノイズの発生する確率と識別性能の関係を表した図である. 
+データは10000件と70000件, ノイズの発生確率は0.0から0.25まで0.01ずつ変化させた. 
+
+ノイズ耐性はデータ数によって上がると考えられる. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{データ数とノイズ耐性}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% \section{中間層のニューロンの役割}
+% 中間層のニューロンの数を変化させ, ニューロン数と識別性能の関係を表した
+% のが図\ref{fig:hidden-neuron-role}である. 
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.6\textwidth]{assets/img/hidden_neuron_role.pdf}
+%   \caption{中間層ニューロン数と識別器の識別性能の関係}
+%   \label{fig:hidden-neuron-role}
+% \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,7 +138,9 @@ The MNIST database of handwritten digits
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{thebibliography}{9}
 %   \bibitem{inv1} Samuel R．Buss，"Introduction to Inverse Kinematics with Jacobian Transpose，Pseudoinverse and Damped Least Squares methods"
-  \bibitem{mnist} http://yann.lecun.com/exdb/mnist/
+  \bibitem{mnist} Yann LeCun, Corinna Cortes, Christopher J.C. Burges,
+    ``MNIST handwritten digit database, Yann LeCun, Corinna Cortes and Chris Burges'',
+    http://yann.lecun.com/exdb/mnist/
 \end{thebibliography}
 
 %%%%%%%%%%%%%%%%
