@@ -30,17 +30,17 @@ def hidden_layer_analyze():
     ax.set_ylabel('score')
     plt.savefig('../output/hidden_layer_analyze_mnist_score_{0}.png'.format(n_samples))
     # about minimal hidden layer neurons
-    index = np.argmax(scores)
-    W = nns[index].wi
-    n_hidden = x[index]
-    p = np.random.randint(0, len(W), 25)
-    for i, w in enumerate(W[p]):
-        ax = plt.subplot(5, 5, i+1)
-        ax.axis('off')
-        w = np.delete(w, 0)
-        ax.imshow(w.reshape((28,28)), cmap=plt.cm.gray_r, interpolation='nearest')
-    print 'n_hidden is {0}'.format(n_hidden)
-    plt.savefig('../output/hidden_layer_analyze_mnist_image_{0}.png'.format(n_samples))
+    for index in [np.argmax(scores), np.argmin(scores)]:
+        W = nns[index].wi
+        n_hidden = x[index]
+        p = np.arange(0, 25)
+        for i, w in enumerate(W[p]):
+            ax = plt.subplot(5, 5, i+1)
+            ax.axis('off')
+            w = np.delete(w, 0)
+            ax.imshow(w.reshape((28,28)), cmap=plt.cm.gray_r, interpolation='nearest')
+        print 'n_hidden is {0}'.format(n_hidden)
+        plt.savefig('../output/hidden_layer_analyze_mnist_image_nsamp{0}_nh{1}.png'.format(n_samples, n_hidden))
 
 
 if __name__ == '__main__':
