@@ -17,7 +17,7 @@ def inertia_rate_test_mnist():
     x = []
     n_samples = 70000
     for ir in np.arange(0, 20) * 0.02:
-        score, _ = test_mnist(corruption_level=0.0, learning_rate=0.4,
+        score, _ = test_mnist(corruption_level=0.0, learning_rate=0.3,
                               inertia_rate=ir, epochs=n_samples,
                               verbose=False)
         scores.append(score)
