@@ -1,0 +1,98 @@
+%        File: 03140299.tex
+%     Created: Fri Jan 02 03:00 PM 2015 J
+% Last Change: Fri Jan 02 03:00 PM 2015 J
+%
+\documentclass[10pt]{jarticle}
+
+%%%%%%%%%%%%%%%%%%%%%
+% to input Japanese %
+%%%%%%%%%%%%%%%%%%%%%
+\usepackage[japanese]{babel}
+
+%%%%%%%%%%%%%%%%%%%%%
+% to insert itembox %
+%%%%%%%%%%%%%%%%%%%%%
+\usepackage{ascmac}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% to be standard a4paper %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  total={210mm,297mm},
+  left=20mm,
+  right=20mm,
+  top=20mm,
+  bottom=40mm,
+}
+
+%%%%%%%%%%%%%%%%%%%%%
+% to insert figures %
+%%%%%%%%%%%%%%%%%%%%%
+\usepackage[dvipdfmx]{graphicx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% to insert source codes %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \usepackage{listings, jlisting}
+% \renewcommand{\lstlistingname}{list}
+% \lstset{language=C,
+%   basicstyle=\ttfamily\scriptsize,
+%   commentstyle=\textit,
+%   classoffset=1,
+%   keywordstyle=\bfseries,
+%   frame=tRBl,
+%   framesep=5pt,
+%   showstringspaces=false,
+%   numbers=left,
+%   stepnumber=1,
+%   numberstyle=\tiny,
+%   tabsize=2
+% }
+
+%%%%%%%%%%%%%%%%%%
+% title & author %
+%%%%%%%%%%%%%%%%%%
+\title{ロボットインテリジェンス レポート課題A \\
+      「ニューラルネット学習シミュレーション」}
+\author{03-140299 東京大学機械情報工学科3年 和田健太郎}
+
+%%%%%%%%%%%%%%%%%%
+% begin document %
+%%%%%%%%%%%%%%%%%%
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{概要}
+レポート課題として課題Aを選択し, 3層フィードフォワード型の
+ニューラルネットとバックプロパゲーション学習をシミュレーション
+するプログラムを作成し, 識別実験を行った. 
+
+識別実験に利用したデータ群は
+The MNIST database of handwritten digits
+であり, 過去に様々な分類器において識別能力を図るために利用されている. 
+\cite{mnist}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% to insert bibliography %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{9}
+%   \bibitem{inv1} Samuel R．Buss，"Introduction to Inverse Kinematics with Jacobian Transpose，Pseudoinverse and Damped Least Squares methods"
+  \bibitem{mnist} http://yann.lecun.com/exdb/mnist/
+\end{thebibliography}
+
+%%%%%%%%%%%%%%%%
+% end document %
+%%%%%%%%%%%%%%%%
+\end{document}
