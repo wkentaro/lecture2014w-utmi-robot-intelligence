@@ -20,7 +20,7 @@ import nn
 def test_mnist(
         corruption_level=0.0,
         learning_rate=0.4,
-        inertia_rate=0.3
+        inertia_rate=0.3,
         nh=100,
         epochs=10000,
         verbose=False,
