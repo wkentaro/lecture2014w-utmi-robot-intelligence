@@ -21,7 +21,7 @@ def test_mnist(
         corruption_level=0.0,
         nh=100,
         epochs=10000,
-        verbose=False
+        verbose=False,
         ):
     # load train data
     mnist = fetch_mldata('MNIST original')
@@ -43,6 +43,7 @@ def test_mnist(
     clf = nn.NN(ni=X.shape[1], nh=nh, no=len(target_names),
             corruption_level=corruption_level)
 
+    # split data to train & test
     X_train, X_test, y_train, y_test = train_test_split(X, y)
 
     # convert train data to 1-of-k expression
