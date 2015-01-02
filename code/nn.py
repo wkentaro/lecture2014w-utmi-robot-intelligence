@@ -25,10 +25,12 @@ class NN(object):
         # create weights
         # input layer  -> hidden layer
         self.wi = np.random.uniform(-1., 1., (self.nh, self.ni))
+        self.dwi_old = 0.
         # hidden layer -> output layer
         self.wo = np.random.uniform(-1., 1., (self.no, self.nh))
+        self.dwo_old = 0.
 
-    def fit(self, X, y_train, learning_rate=0.4, epochs=10000):
+    def fit(self, X, y_train, learning_rate=0.4, inertia_rate=0.1, epochs=10000):
         """Update the weights in nn using training datasets"""
         # add bias unit to input data
         X = np.hstack([np.ones((len(X), 1)), X])
@@ -64,13 +66,17 @@ class NN(object):
             # error in hidden layer
             x = np.atleast_2d(x)
             delta1 = np.atleast_2d(delta1)
-            self.wi -= learning_rate * np.dot(delta1.T, x)
+            dwi = - learning_rate * np.dot(delta1.T, x) + inertia_rate * self.dwi_old
+            self.wi += dwi
+            self.dwi_old = dwi
 
             # update output layer weight using
             # error in output layer
             z = np.atleast_2d(z)
             delta2 = np.atleast_2d(delta2)
-            self.wo -= learning_rate * np.dot(delta2.T, z)
+            dwo = - learning_rate * np.dot(delta2.T, z) + inertia_rate * self.dwo_old
+            self.wo += dwo
+            self.dwo_old = dwo
 
     def predict(self, x):
         """Predict the solution for test data"""
