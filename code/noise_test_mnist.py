@@ -17,7 +17,11 @@ def noise_test():
     x = []
     n_samples = 70000
     for cl in np.arange(0, 26) * 0.01:
-        score, _ = test_mnist(corruption_level=cl, epochs=n_samples, verbose=False)
+        score, _ = test_mnist(corruption_level=cl,
+                              learning_rate=0.3,
+                              inertia_rate=0.24,
+                              epochs=n_samples,
+                              verbose=False)
         scores.append(score)
         x.append(cl)
     scores = np.array(scores)
