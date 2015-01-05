@@ -65,8 +65,10 @@ def feature_test_mnist(
         pass
     else:
         nh = int(nh * X.shape[1])
-    clf = nn.NN(ni=X.shape[1], nh=nh, no=len(target_names),
-            corruption_level=corruption_level)
+    clf = nn.NN(ni=X.shape[1],
+                nh=nh,
+                no=len(target_names),
+                corruption_level=corruption_level)
 
     # split data to train & test
     X_train, X_test, y_train, y_test = train_test_split(X, y)
