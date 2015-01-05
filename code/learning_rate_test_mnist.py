@@ -17,8 +17,10 @@ def learning_rate_test_mnist():
     x = []
     n_samples = 70000
     for lr in np.arange(1, 20) * 0.02:
-        score, _ = test_mnist(corruption_level=0.0, learning_rate=lr,
-                              inertia_rate=0.0, epochs=n_samples,
+        score, _ = test_mnist(corruption_level=0.0,
+                              learning_rate=lr,
+                              inertia_rate=0.0,
+                              epochs=n_samples,
                               verbose=False)
         scores.append(score)
         x.append(lr)

@@ -17,7 +17,11 @@ def hidden_layer_analyze():
     scores, x, nns = [], [], []
     n_samples = 70000
     for nh in np.arange(1, 40) * 0.02:
-        score, nn = test_mnist(nh=nh, epochs=n_samples)
+        score, nn = test_mnist(nh=nh,
+                               corruption_level=0.04,
+                               learning_rate=0.3,
+                               inertia_rate=0.24,
+                               epochs=n_samples)
         scores.append(score)
         x.append(nh)
         nns.append(nn)
