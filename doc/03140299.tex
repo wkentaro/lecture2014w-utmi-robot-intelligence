@@ -85,35 +85,64 @@ The MNIST database of handwritten digits
 画像データである. 画像に対する前処理はなしで7000件のデータに対して,
 学習率と慣性項係数のそれぞれに関して複数の値を用いて識別正解率の変化を調べた. 
 
-学習率を0.02から0.38まで0.02ずつ変化させ, 学習率と識別正解率の関係を表したのが
+慣性項は0に固定して, 学習率を0.02から0.38まで0.02ずつ変化させ,
+学習率と識別正解率の関係を表したのが
 図\ref{fig:learning-rate-score-var}である. 
 図から, 学習率が0.3のときに最も識別正解率が高いことがわかる. 
-今後の解析では学習率を0.3として実験を行う. なお, この時慣性項の値は0とした. 
-\begin{figure}[hbtp]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.6\textwidth]{assets/img/learning_rate_test_mnist_70000.pdf}
+  \includegraphics[width=0.5\textwidth]{assets/img/learning_rate_test_mnist_70000.pdf}
   \caption{学習率と識別正解率の関係}
   \label{fig:learning-rate-score-var}
 \end{figure}
 
-慣性項の係数を0.0から0.38まで変化させ, 慣性項係数と識別正解率の関係を表したのが
+学習率を0.3に固定して, 慣性項の係数を0.0から0.38まで変化させ,
+慣性項係数と識別正解率の関係を表したのが
 図\ref{fig:inertia-rate-score-var}である. 
-\begin{figure}[hbtp]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.6\textwidth]{assets/img/inertia_rate_test_mnist_70000.pdf}
+  \includegraphics[width=0.5\textwidth]{assets/img/inertia_rate_test_mnist_70000.pdf}
   \caption{慣性項の係数と識別正解率の関係}
   \label{fig:inertia-rate-score-var}
 \end{figure}
+
+今後の解析では学習率を0.3, 慣性項の係数を0.24として実験を行う.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ノイズによる性能変化}
-ノイズによる識別性能の変化について検証した. ノイズは, ある確率で画像のピクセル値を
-ランダムな値に変化させるということで発生させた. 図\ref{fig:noise-test-score-var}
+ノイズによる識別性能の変化について検証した. 
+ノイズは, ある確率で画像のピクセル値を
+ランダムな値に変化させるということで発生させた. 
+図\ref{fig:noise-test-score-var-10000}, 
+\ref{fig:noise-test-score-var-70000}
 はノイズの発生する確率と識別性能の関係を表した図である. 
-データは10000件と70000件, ノイズの発生確率は0.0から0.25まで0.01ずつ変化させた. 
+データは10000件(図\ref{fig:noise-test-score-var-10000})と
+70000件(図\ref{fig:noise-test-score-var-70000}), 
+ノイズの発生確率は0.0から0.25まで0.01ずつ変化させた. 
+図より, ノイズの確率0.04のとき識別正解率が最も高くなっていることがわかる. 
 
-ノイズ耐性はデータ数によって上がると考えられる. 
+また, 10000サンプルの場合には正解率の平均が0.85721, 標準偏差が0.04707であり, 
+70000サンプルでは平均0.94010, 標準偏差0.00332であることから
+ノイズ耐性はデータ数によって上がると言える. 
+\begin{figure}[htbp]
+  \begin{tabular}{cc}
+    \begin{minipage}{0.5\hsize}
+      \begin{center}
+        \includegraphics[width=0.9\textwidth]{assets/img/noise_test_mnist_10000.pdf}
+        \caption{ノイズと識別正解率の関係(10000サンプル)}
+        \label{fig:noise-test-score-var-10000}
+      \end{center}
+    \end{minipage}
+    \begin{minipage}{0.5\hsize}
+      \begin{center}
+        \includegraphics[width=0.9\textwidth]{assets/img/noise_test_mnist_70000.pdf}
+        \caption{ノイズと識別正解率の関係(70000サンプル)}
+        \label{fig:noise-test-score-var-70000}
+      \end{center}
+    \end{minipage}
+  \end{tabular}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
