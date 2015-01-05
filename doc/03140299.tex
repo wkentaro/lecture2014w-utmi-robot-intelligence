@@ -2,7 +2,7 @@
 %     Created: Fri Jan 02 03:00 PM 2015 J
 % Last Change: Fri Jan 02 03:00 PM 2015 J
 %
-\documentclass[10pt]{jarticle}
+\documentclass[10pt,a4paper,twocolumn]{jarticle}
 
 %%%%%%%%%%%%%%%%%%%%%
 % to input Japanese %
@@ -73,6 +73,13 @@
 The MNIST database of handwritten digits
 であり, このデータは過去に様々な分類器において
 識別能力を図るために利用されている. \cite{mnist}
+図\ref{fig:plot-mnist}に実際に利用した学習データの一部を示す. 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/img/plot_mnist.pdf}
+  \caption{MNISTの画像データ例}
+  \label{fig:plot-mnist}
+\end{figure}
 
 また, ノイズを加えた場合の性能変化, ノイズ耐性, 
 中間ニューロンの役割, オートエンコーダを利用した画像特徴抽出による
@@ -94,22 +101,16 @@ The MNIST database of handwritten digits
 慣性項係数と識別正解率の関係を表したのが
 図\ref{fig:inertia-rate-score-var}である. 
 \begin{figure}[htbp]
-  \begin{tabular}{cc}
-    \begin{minipage}{0.5\hsize}
-      \begin{center}
-        \includegraphics[width=0.9\textwidth]{assets/img/learning_rate_test_mnist_70000.pdf}
-        \caption{学習率と識別正解率の関係}
-        \label{fig:learning-rate-score-var}
-      \end{center}
-    \end{minipage}
-    \begin{minipage}{0.5\hsize}
-      \begin{center}
-        \includegraphics[width=0.9\textwidth]{assets/img/inertia_rate_test_mnist_70000.pdf}
-        \caption{慣性項の係数と識別正解率の関係}
-        \label{fig:inertia-rate-score-var}
-      \end{center}
-    \end{minipage}
-  \end{tabular}
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/img/learning_rate_test_mnist_70000.pdf}
+  \caption{学習率と識別正解率の関係}
+  \label{fig:learning-rate-score-var}
+\end{figure}
+\begin{figure}[htbp] 
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/img/inertia_rate_test_mnist_70000.pdf}
+  \caption{慣性項の係数と識別正解率の関係}
+  \label{fig:inertia-rate-score-var}
 \end{figure}
 
 今後の解析では学習率を0.3, 慣性項の係数を0.24として実験を行う.
@@ -131,23 +132,17 @@ The MNIST database of handwritten digits
 また, 10000サンプルの場合には正解率の平均が0.85721, 標準偏差が0.04707であり, 
 70000サンプルでは平均0.94010, 標準偏差0.00332であることから
 ノイズ耐性はデータ数によって上がると言える. 
-\begin{figure}[htbp]
-  \begin{tabular}{cc}
-    \begin{minipage}{0.5\hsize}
-      \begin{center}
-        \includegraphics[width=0.9\textwidth]{assets/img/noise_test_mnist_10000.pdf}
-        \caption{ノイズと識別正解率の関係(10000サンプル)}
-        \label{fig:noise-test-score-var-10000}
-      \end{center}
-    \end{minipage}
-    \begin{minipage}{0.5\hsize}
-      \begin{center}
-        \includegraphics[width=0.9\textwidth]{assets/img/noise_test_mnist_70000.pdf}
-        \caption{ノイズと識別正解率の関係(70000サンプル)}
-        \label{fig:noise-test-score-var-70000}
-      \end{center}
-    \end{minipage}
-  \end{tabular}
+\begin{figure}[htbp] 
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/img/noise_test_mnist_10000.pdf}
+  \caption{ノイズと識別正解率の関係(10000サンプル)}
+  \label{fig:noise-test-score-var-10000}
+\end{figure}
+\begin{figure}[htbp] 
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/img/noise_test_mnist_70000.pdf}
+  \caption{ノイズと識別正解率の関係(70000サンプル)}
+  \label{fig:noise-test-score-var-70000}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -157,28 +152,22 @@ The MNIST database of handwritten digits
 のが図\ref{fig:hidden-neuron-role}である. 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.5\textwidth]{assets/img/hidden_layer_analyze_mnist_score_70000.pdf}
+  \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_score_70000.pdf}
   \caption{中間層ニューロン数と識別器の識別性能の関係}
   \label{fig:hidden-neuron-role}
 \end{figure}
 
-\begin{figure}[htbp]
-  \begin{tabular}{cc}
-    \begin{minipage}{0.5\hsize}
-      \begin{center}
-        \includegraphics[width=0.9\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.16.eps}
-        \caption{識別性能が高い場合(中間層0.16)の重み}
-        \label{fig:hidden-layer-analyze-img-0.16}
-      \end{center}
-    \end{minipage}
-    \begin{minipage}{0.5\hsize}
-      \begin{center}
-        \includegraphics[width=0.9\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.72.eps}
-        \caption{識別性能が高い場合(中間層0.72)の重み}
-        \label{fig:hidden-layer-analyze-img-0.72}
-      \end{center}
-    \end{minipage}
-  \end{tabular}
+\begin{figure}[htbp] 
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.16.eps}
+  \caption{識別性能が高い場合(中間層0.16)の重み}
+  \label{fig:hidden-layer-analyze-img-0.16}
+\end{figure}
+\begin{figure}[htbp] 
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.72.eps}
+  \caption{識別性能が高い場合(中間層0.72)の重み}
+  \label{fig:hidden-layer-analyze-img-0.72}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
