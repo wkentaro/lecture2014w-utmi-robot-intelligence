@@ -89,21 +89,27 @@ The MNIST database of handwritten digits
 学習率と識別正解率の関係を表したのが
 図\ref{fig:learning-rate-score-var}である. 
 図から, 学習率が0.3のときに最も識別正解率が高いことがわかる. 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\textwidth]{assets/img/learning_rate_test_mnist_70000.pdf}
-  \caption{学習率と識別正解率の関係}
-  \label{fig:learning-rate-score-var}
-\end{figure}
 
 学習率を0.3に固定して, 慣性項の係数を0.0から0.38まで変化させ,
 慣性項係数と識別正解率の関係を表したのが
 図\ref{fig:inertia-rate-score-var}である. 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\textwidth]{assets/img/inertia_rate_test_mnist_70000.pdf}
-  \caption{慣性項の係数と識別正解率の関係}
-  \label{fig:inertia-rate-score-var}
+  \begin{tabular}{cc}
+    \begin{minipage}{0.5\hsize}
+      \begin{center}
+        \includegraphics[width=0.9\textwidth]{assets/img/learning_rate_test_mnist_70000.pdf}
+        \caption{学習率と識別正解率の関係}
+        \label{fig:learning-rate-score-var}
+      \end{center}
+    \end{minipage}
+    \begin{minipage}{0.5\hsize}
+      \begin{center}
+        \includegraphics[width=0.9\textwidth]{assets/img/inertia_rate_test_mnist_70000.pdf}
+        \caption{慣性項の係数と識別正解率の関係}
+        \label{fig:inertia-rate-score-var}
+      \end{center}
+    \end{minipage}
+  \end{tabular}
 \end{figure}
 
 今後の解析では学習率を0.3, 慣性項の係数を0.24として実験を行う.
@@ -146,15 +152,34 @@ The MNIST database of handwritten digits
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{中間層のニューロンの役割}
-% 中間層のニューロンの数を変化させ, ニューロン数と識別性能の関係を表した
-% のが図\ref{fig:hidden-neuron-role}である. 
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.6\textwidth]{assets/img/hidden_neuron_role.pdf}
-%   \caption{中間層ニューロン数と識別器の識別性能の関係}
-%   \label{fig:hidden-neuron-role}
-% \end{figure}
+\section{中間層のニューロンの役割}
+中間層のニューロンの数を変化させ, ニューロン数と識別性能の関係を表した
+のが図\ref{fig:hidden-neuron-role}である. 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\textwidth]{assets/img/hidden_layer_analyze_mnist_score_70000.pdf}
+  \caption{中間層ニューロン数と識別器の識別性能の関係}
+  \label{fig:hidden-neuron-role}
+\end{figure}
+
+\begin{figure}[htbp]
+  \begin{tabular}{cc}
+    \begin{minipage}{0.5\hsize}
+      \begin{center}
+        \includegraphics[width=0.9\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.16.eps}
+        \caption{識別性能が高い場合(中間層0.16)の重み}
+        \label{fig:hidden-layer-analyze-img-0.16}
+      \end{center}
+    \end{minipage}
+    \begin{minipage}{0.5\hsize}
+      \begin{center}
+        \includegraphics[width=0.9\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.72.eps}
+        \caption{識別性能が高い場合(中間層0.72)の重み}
+        \label{fig:hidden-layer-analyze-img-0.72}
+      \end{center}
+    \end{minipage}
+  \end{tabular}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
