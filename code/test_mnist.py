@@ -18,11 +18,11 @@ import nn
 
 
 def test_mnist(
-        corruption_level=0.0,
-        learning_rate=0.4,
-        inertia_rate=0.3,
-        nh=100,
-        epochs=10000,
+        corruption_level=0.04,
+        learning_rate=0.3,
+        inertia_rate=0.24,
+        nh=0.16,
+        epochs=70000,
         verbose=False,
         ):
     # load train data
