@@ -6,6 +6,7 @@
 import os
 import numpy as np
 import collections
+import cPickle
 
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.cross_validation import train_test_split
