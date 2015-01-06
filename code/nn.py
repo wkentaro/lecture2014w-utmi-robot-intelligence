@@ -49,7 +49,7 @@ class NN(object):
                                    size=len(x))
             rnd_samples = np.where(p == 0)
             for rs in rnd_samples:
-                x[rs] *= np.random.random()
+                x[rs] = np.random.random()
 
             # forward propagation
             z = sigmoid(np.dot(self.wi, x))
