@@ -20,7 +20,10 @@
 
 import sys
 import numpy
-from utils import *
+
+
+def sigmoid(x):
+    return 1. / (1 + numpy.exp(-x))
 
 
 class dA(object):
@@ -32,7 +35,7 @@ class dA(object):
 
         if numpy_rng is None:
             numpy_rng = numpy.random.RandomState(1234)
-            
+
         if W is None:
             a = 1. / n_visible
             initial_W = numpy.array(numpy_rng.uniform(  # initialize W uniformly
@@ -57,8 +60,6 @@ class dA(object):
 
         # self.params = [self.W, self.hbias, self.vbias]
 
-
-        
     def get_corrupted_input(self, input, corruption_level):
         assert corruption_level < 1
 
@@ -73,7 +74,6 @@ class dA(object):
     # Decode
     def get_reconstructed_input(self, hidden):
         return sigmoid(numpy.dot(hidden, self.W_prime) + self.vbias)
-
 
     def train(self, lr=0.1, corruption_level=0.3, input=None):
         if input is not None:
@@ -96,8 +96,6 @@ class dA(object):
         self.hbias += lr * numpy.mean(L_hbias, axis=0)
         self.vbias += lr * numpy.mean(L_vbias, axis=0)
 
-
-
     def negative_log_likelihood(self, corruption_level=0.3):
         tilde_x = self.get_corrupted_input(self.x, corruption_level)
         y = self.get_hidden_values(tilde_x)
@@ -110,12 +108,10 @@ class dA(object):
 
         return cross_entropy
 
-
     def reconstruct(self, x):
         y = self.get_hidden_values(x)
         z = self.get_reconstructed_input(y)
         return z
-
 
 
 def test_dA(learning_rate=0.1, corruption_level=0.3, training_epochs=50):
@@ -129,7 +125,7 @@ def test_dA(learning_rate=0.1, corruption_level=0.3, training_epochs=50):
                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0]])
-    
+
     rng = numpy.random.RandomState(123)
 
     # construct dA
@@ -142,13 +138,11 @@ def test_dA(learning_rate=0.1, corruption_level=0.3, training_epochs=50):
         # print >> sys.stderr, 'Training epoch %d, cost is ' % epoch, cost
         # learning_rate *= 0.95
 
-
     # test
     x = numpy.array([[1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
                      [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0]])
 
     print da.reconstruct(x)
-
 
 
 if __name__ == "__main__":
