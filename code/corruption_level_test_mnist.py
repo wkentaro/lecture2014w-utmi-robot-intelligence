@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# noise_test_mnist.py
+# corruption_level_test_mnist.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
+from __future__ import print_function
 import time
 
 import numpy as np
@@ -12,11 +13,12 @@ from termcolor import cprint
 from test_mnist import test_mnist
 
 
-def noise_test():
-    scores = []
-    x = []
+def corruption_level_test_mnist():
+    print("... doing corruption_level test")
+    scores, x = [], []
     n_samples = 70000
     for cl in np.arange(0, 26) * 0.01:
+        print("...... corruption_level: {0}".format(nh), end='')
         score, _ = test_mnist(corruption_level=cl,
                               learning_rate=0.3,
                               inertia_rate=0.24,
@@ -24,15 +26,20 @@ def noise_test():
                               verbose=False)
         scores.append(score)
         x.append(cl)
+        print("...... score: {0}".format(score))
     scores = np.array(scores)
     x = np.array(x)
+    print("--- done")
 
+    print("... plotting test result")
+    print("...... plotting scores")
+    # plot graph
     ax1 = plt.subplot()
     ax1.plot(x, scores)
-    ax1.set_title('noise and score with {0}'.format(n_samples))
-    ax1.set_xlabel('noise level')
+    ax1.set_title('corruption_level and score with {0}'.format(n_samples))
+    ax1.set_xlabel('corruption_level')
     ax1.set_ylabel('score')
-
+    # for label
     ax2 = plt.subplot()
     label_text = r"""
         $\mu = %.5f$
@@ -42,8 +49,9 @@ def noise_test():
             horizontalalignment='left',
             verticalalignment='bottom',
             transform=ax2.transAxes)
-    plt.savefig('../output/noise_test_mnist_{0}.png'.format(n_samples))
+    plt.savefig('../output/corruption_level_test_mnist_{0}.png'.format(n_samples))
+    print("--- done")
 
 
 if __name__ == '__main__':
-    noise_test()
+    corruption_level_test_mnist()
