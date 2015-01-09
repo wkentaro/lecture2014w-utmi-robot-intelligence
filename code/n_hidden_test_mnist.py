@@ -28,7 +28,7 @@ def n_hidden_test_mnist():
         scores.append(score)
         x.append(nh)
         nns.append(nn)
-        print("...... score: {0}".format(score))
+        print("score: {0}".format(score))
     scores, x = np.array(scores), np.array(x)
     print("--- done")
 

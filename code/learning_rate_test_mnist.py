@@ -26,7 +26,7 @@ def learning_rate_test_mnist():
                               verbose=False)
         scores.append(score)
         x.append(lr)
-        print("...... score: {0}".format(score))
+        print("score: {0}".format(score))
     scores = np.array(scores)
     x = np.array(x)
     print("--- done")

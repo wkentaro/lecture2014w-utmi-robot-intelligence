@@ -20,12 +20,12 @@ def epoch_test_mnist():
             print("...... epoch: {0} ".format(nsmpl), end='')
             score, _ = test_mnist(corruption_level=0.0,
                                 learning_rate=0.3,
-                                inertia_rate=0.24,
+                                inertia_rate=0.0,
                                 epochs=nsmpl,
                                 verbose=False)
             scores.append(score)
             x.append(nsmpl)
-            print("...... score: {0}".format(score))
+            print("score: {0}".format(score))
         except KeyboardInterrupt:
             break
     scores = np.array(scores)
