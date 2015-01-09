@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# inertia_rate_test_mnist.py
+# noise_level_test_mnist.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
 from __future__ import print_function
@@ -13,30 +13,32 @@ from termcolor import cprint
 from test_mnist import test_mnist
 
 
-def inertia_rate_test_mnist():
-    print("... trying inertia_rate test")
+def noise_level_test_mnist():
+    print("... doing noise_level test")
     scores, x = [], []
     n_samples = 70000
-    for ir in np.arange(0, 20) * 0.02:
-        print("...... inertia_rate: {0} ".format(ir), end='')
-        score, _ = test_mnist(corruption_level=0.0,
+    for nl in np.arange(0, 26) * 0.01:
+        print("...... noise_level: {0}".format(nh), end='')
+        score, _ = test_mnist(corruption_level=0.0
+                              noise_level=nl,
                               learning_rate=0.3,
-                              inertia_rate=ir,
+                              inertia_rate=0.24,
                               epochs=n_samples,
                               verbose=False)
         scores.append(score)
-        x.append(ir)
+        x.append(cl)
         print("...... score: {0}".format(score))
     scores = np.array(scores)
     x = np.array(x)
     print("--- done")
 
-    print("... ploting points")
-    # for graph
+    print("... plotting test result")
+    print("...... plotting scores")
+    # plot graph
     ax1 = plt.subplot()
     ax1.plot(x, scores)
-    ax1.set_title('inertia_rate and score with {0}'.format(n_samples))
-    ax1.set_xlabel('inertia rate level')
+    ax1.set_title('noise_level and score with {0}'.format(n_samples))
+    ax1.set_xlabel('noise_level')
     ax1.set_ylabel('score')
     # for label
     ax2 = plt.subplot()
@@ -48,9 +50,9 @@ def inertia_rate_test_mnist():
             horizontalalignment='left',
             verticalalignment='bottom',
             transform=ax2.transAxes)
-    plt.savefig('../output/inertia_rate_test_mnist_{0}.png'.format(n_samples))
+    plt.savefig('../output/noise_level_test_mnist_{0}.png'.format(n_samples))
     print("--- done")
 
 
 if __name__ == '__main__':
-    inertia_rate_test_mnist()
+    noise_level_test_mnist()

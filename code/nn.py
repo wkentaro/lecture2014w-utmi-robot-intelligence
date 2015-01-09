@@ -47,9 +47,7 @@ class NN(object):
             # add noise to the input
             p = np.random.binomial(n=1, p=1 - self.corruption_level,
                                    size=len(x))
-            rnd_samples = np.where(p == 0)
-            for rs in rnd_samples:
-                x[rs] = np.random.random()
+            x[p==0] = np.random.random(len(x))[p==0]
 
             # forward propagation
             z = sigmoid(np.dot(self.wi, x))
