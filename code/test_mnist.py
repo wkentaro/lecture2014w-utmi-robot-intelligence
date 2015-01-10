@@ -6,8 +6,7 @@
 import numpy as np
 
 from sklearn.datasets import fetch_mldata
-from sklearn.preprocessing import LabelBinarizer
-from sklearn.cross_validation import train_test_split
+from sklearn.cross_validation import StratifiedKFold
 from sklearn.metrics import (
         classification_report,
         accuracy_score,
@@ -45,39 +44,20 @@ def test_mnist(corruption_level=0.0,
     clf = nn.NN(ni=X.shape[1],
                 nh=int(nh*X.shape[1]),
                 no=len(target_names),
-                corruption_level=corruption_level)
+                learning_rate=learning_rate,
+                inertia_rate=inertia_rate,
+                corruption_level=corruption_level,
+                epochs=epochs)
 
-    # split data to train & test
-    X_train, X_test, y_train, y_test = train_test_split(X, y)
-    # convert train data to 1-of-k expression
-    label_train = LabelBinarizer().fit_transform(y_train)
-    label_test = LabelBinarizer().fit_transform(y_test)
+    # cross validation
+    skf = StratifiedKFold(y, n_folds=3)
+    scores = np.zeros(len(skf))
+    for i, (train_index, test_index) in enumerate(skf):
+        clf.fit(X[train_index], y[train_index])
+        score = clf.score(X[test_index], y[test_index])
+        scores[i] = score
 
-    # train the model
-    clf.fit(X_train,
-            label_train,
-            epochs=epochs,
-            learning_rate=learning_rate,
-            inertia_rate=inertia_rate)
-
-    # predict with the trained model
-    y_pred = np.zeros(len(X_test))
-    for i, xt in enumerate(X_test):
-        # add noise to the x
-        p = np.random.binomial(n=1, p=1-noise_level, size=len(xt))
-        xt[p==0] = np.random.random(len(xt))[p==0]
-        # get the prediction
-        o = clf.predict(xt)
-        y_pred[i] = np.argmax(o)
-    # get score
-    score = accuracy_score(y_true=y_test, y_pred=y_pred)
-    # output report
-    if verbose is True:
-        print classification_report(y_true=y_test, y_pred=y_pred)
-        print confusion_matrix(y_true=y_test, y_pred=y_pred)
-        print score
-
-    return score, clf
+    return scores.mean(), clf
 
 
 if __name__ == '__main__':

@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 # nn.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
+
 import numpy as np
+
+from sklearn.preprocessing import LabelBinarizer
+from sklearn.metrics import accuracy_score
 
 
 def sigmoid(x):
@@ -14,8 +18,23 @@ def dsigmoid(y):
 
 
 class NN(object):
-    def __init__(self, ni, nh, no, corruption_level=0.0):
+    def __init__(
+            self,
+            ni,
+            nh,
+            no,
+            learning_rate=0.3,
+            inertia_rate=0.0,
+            corruption_level=0.0,
+            noise_level=0.0,
+            epochs=10000
+            ):
+        # params
+        self.learning_rate = learning_rate
+        self.inertia_rate = inertia_rate
         self.corruption_level = corruption_level
+        self.noise_level = noise_level
+        self.epochs = epochs
 
         # activations for nodes
         self.ni = ni + 1  # +1 for bias node
@@ -30,16 +49,15 @@ class NN(object):
         self.wo = np.random.uniform(-1., 1., (self.no, self.nh))
         self.dwo_old = 0.
 
-    def fit(self, X, y_train, learning_rate=0.4, inertia_rate=0.1, epochs=10000):
+    def fit(self, X, y_train):
         """Update the weights in nn using training datasets"""
         # add bias unit to input data
         X = np.hstack([np.ones((len(X), 1)), X])
         y_train = np.array(y_train)
+        y_train_binarized = LabelBinarizer().fit_transform(y_train)
 
         # training
-        for k in xrange(epochs):
-            # print("[#{0:4}]: training".format(k))
-
+        for k in xrange(self.epochs):
             # randomly select training data
             i = np.random.randint(len(X))
             x = X[i]
@@ -54,7 +72,7 @@ class NN(object):
             y = sigmoid(np.dot(self.wo, z))
 
             # compute error in output layer
-            delta2 = dsigmoid(y) * (y - y_train[i])
+            delta2 = dsigmoid(y) * (y - y_train_binarized[i])
 
             # update weight in hidden layer
             # using the error in output layer
@@ -64,7 +82,7 @@ class NN(object):
             # error in hidden layer
             x = np.atleast_2d(x)
             delta1 = np.atleast_2d(delta1)
-            dwi = - learning_rate * np.dot(delta1.T, x) + inertia_rate * self.dwi_old
+            dwi = - self.learning_rate * np.dot(delta1.T, x) + self.inertia_rate * self.dwi_old
             self.wi += dwi
             self.dwi_old = dwi
 
@@ -72,18 +90,37 @@ class NN(object):
             # error in output layer
             z = np.atleast_2d(z)
             delta2 = np.atleast_2d(delta2)
-            dwo = - learning_rate * np.dot(delta2.T, z) + inertia_rate * self.dwo_old
+            dwo = - self.learning_rate * np.dot(delta2.T, z) + self.inertia_rate * self.dwo_old
             self.wo += dwo
             self.dwo_old = dwo
 
-    def predict(self, x):
+    def predict(self, X_test):
         """Predict the solution for test data"""
-        x = np.array(x)
-        x = np.insert(x, 0, 1)  # for bias
-        # forward propagation
-        z = sigmoid(np.dot(self.wi, x))
-        y = sigmoid(np.dot(self.wo, z))
-        return y
+        # predict with the trained model
+        X_test = np.array(X_test)
+        y_pred = np.zeros(len(X_test))
+        for i, xt in enumerate(X_test):
+            # add noise to the x
+            p = np.random.binomial(n=1, p=1-self.noise_level, size=len(xt))
+            xt[p==0] = np.random.random(len(xt))[p==0]
+
+            # get the model output
+            xt = np.insert(xt, 0, 1)  # for bias
+            # forward propagation
+            z = sigmoid(np.dot(self.wi, xt))
+            o = sigmoid(np.dot(self.wo, z))
+
+            if len(o) > 1:
+                y_pred[i] = np.argmax(o)
+            else:
+                y_pred[i] = round(o)
+
+        return y_pred
+
+    def score(self, X_test, y_true):
+        y_pred = self.predict(X_test)
+        score = accuracy_score(y_true=y_true, y_pred=y_pred)
+        return score
 
 
 def main():
@@ -95,8 +132,9 @@ def main():
 
     nn.fit(X, y_train)
 
-    for x in X:
-        print x, nn.predict(x)
+    y_pred = nn.predict(X)
+    print y_train
+    print y_pred
 
 
 if __name__ == '__main__':
