@@ -15,13 +15,15 @@ from test_mnist import test_mnist
 
 def learning_rate_test_mnist():
     print("... doing learning_rate test")
-    scores, x = [], []
     n_samples = 70000
-    for lr in np.arange(1, 20) * 0.02:
+    scores, x = [], []
+    for lr in np.arange(1, 21) * 0.02:
         print("...... learning_rate: {0} ".format(lr), end='')
         score, _ = test_mnist(corruption_level=0.0,
+                              noise_level=0.0,
                               learning_rate=lr,
                               inertia_rate=0.0,
+                              nh=0.15,
                               epochs=n_samples,
                               verbose=False)
         scores.append(score)
@@ -49,7 +51,7 @@ def learning_rate_test_mnist():
             verticalalignment='bottom',
             transform=ax2.transAxes)
     plt.savefig('../output/learning_rate_test_mnist_{0}.png'.format(n_samples))
-    print("-- done")
+    print("--- done")
 
 
 if __name__ == '__main__':
