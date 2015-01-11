@@ -20,7 +20,7 @@ def learning_rate_test_mnist():
     epochs = 150000
     scores, x = [], []
     for lr in np.arange(1, 21) * 0.02:
-        print("...... learning_rate: {0} ".format(lr), end='')
+        print("...... learning_rate: {0}".format(lr), end='')
         score, _ = test_mnist(corruption_level=0.0,
                               noise_level=0.0,
                               learning_rate=lr,
@@ -30,7 +30,7 @@ def learning_rate_test_mnist():
                               verbose=False)
         scores.append(score)
         x.append(lr)
-        print("score: {0}".format(score))
+        print(" score: {0}".format(score))
     scores = np.array(scores)
     x = np.array(x)
     print("--- done")

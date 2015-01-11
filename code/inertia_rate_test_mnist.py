@@ -20,7 +20,7 @@ def inertia_rate_test_mnist():
     epochs = 150000
     scores, x = [], []
     for ir in np.arange(0, 20) * 0.02:
-        print("...... inertia_rate: {0} ".format(ir), end='')
+        print("...... inertia_rate: {0}".format(ir), end='')
         score, _ = test_mnist(corruption_level=0.0,
                               noise_level=0.0,
                               learning_rate=0.3,
@@ -30,7 +30,7 @@ def inertia_rate_test_mnist():
                               verbose=False)
         scores.append(score)
         x.append(ir)
-        print("score: {0}".format(score))
+        print(" score: {0}".format(score))
     scores = np.array(scores)
     x = np.array(x)
     print("--- done")
