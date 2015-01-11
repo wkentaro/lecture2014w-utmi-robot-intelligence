@@ -5,6 +5,8 @@
 
 from __future__ import print_function
 import time
+import cPickle
+import gzip
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -21,6 +23,7 @@ def epoch_test_mnist():
             score, _ = test_mnist(corruption_level=0.0,
                                 learning_rate=0.3,
                                 inertia_rate=0.0,
+                                nh=0.1,
                                 epochs=nsmpl,
                                 verbose=False)
             scores.append(score)
@@ -36,8 +39,8 @@ def epoch_test_mnist():
     # for graph
     ax1 = plt.subplot()
     ax1.plot(x, scores)
-    ax1.set_title('Relation between number of samples and score')
-    ax1.set_xlabel('number of samples')
+    ax1.set_title('Relation between epoch and score')
+    ax1.set_xlabel('epoch')
     ax1.set_ylabel('score')
     # for label
     ax2 = plt.subplot()
@@ -50,6 +53,13 @@ def epoch_test_mnist():
             verticalalignment='bottom',
             transform=ax2.transAxes)
     plt.savefig('../output/epoch_test_mnist.png')
+    print("--- done")
+
+    print("... saving the results")
+    dump_data = {'epoch': x,
+            'score': scores}
+    with gzip.open('../output/epoch_test_mnist.pkl.gz', 'wb') as f:
+        cPickle.dump(dump_data, f)
     print("--- done")
 
 
