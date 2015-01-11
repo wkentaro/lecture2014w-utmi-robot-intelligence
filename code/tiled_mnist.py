@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import fetch_mldata
 
 from utils import tile_raster_images
-import cv2
 
 
 def plot_mnist():
@@ -17,11 +16,12 @@ def plot_mnist():
 
     # get tiled image
     p = np.random.randint(0, len(mnist.data), 400)
-    tile = tile_raster_images(mnist.data[p], (28,28), (20,20), scale_rows_to_unit_interval=False)
-    tile = cv2.cvtColor(tile, cv2.COLOR_GRAY2RGB)
+    tile = tile_raster_images(mnist.data[p], (28,28), (20,20), scale_rows_to_unit_interval=False, output_pixel_vals=False)
 
     # save tiled data's image
-    plt.imshow(tile)
+    plt.axis('off')
+    plt.title('MNIST dataset')
+    plt.imshow(tile, cmap=plt.cm.gray_r)
     plt.savefig('../output/tiled_mnist.png')
 
 
