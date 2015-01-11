@@ -5,6 +5,8 @@
 
 from __future__ import print_function
 import time
+import cPickle
+import gzip
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,7 +17,7 @@ from test_mnist import test_mnist
 
 def learning_rate_test_mnist():
     print("... doing learning_rate test")
-    n_samples = 70000
+    epochs = 150000
     scores, x = [], []
     for lr in np.arange(1, 21) * 0.02:
         print("...... learning_rate: {0} ".format(lr), end='')
@@ -23,8 +25,8 @@ def learning_rate_test_mnist():
                               noise_level=0.0,
                               learning_rate=lr,
                               inertia_rate=0.0,
-                              nh=0.15,
-                              epochs=n_samples,
+                              nh=0.1,
+                              epochs=epochs,
                               verbose=False)
         scores.append(score)
         x.append(lr)
@@ -37,7 +39,7 @@ def learning_rate_test_mnist():
     # for graph
     ax1 = plt.subplot()
     ax1.plot(x, scores)
-    ax1.set_title('learning_rate and score with {0}'.format(n_samples))
+    ax1.set_title('learning_rate and score with {0}'.format(epochs))
     ax1.set_xlabel('learning rate level')
     ax1.set_ylabel('score')
     # for label
@@ -50,7 +52,14 @@ def learning_rate_test_mnist():
             horizontalalignment='left',
             verticalalignment='bottom',
             transform=ax2.transAxes)
-    plt.savefig('../output/learning_rate_test_mnist_{0}.png'.format(n_samples))
+    plt.savefig('../output/learning_rate_test_mnist_{0}.png'.format(epochs))
+    print("--- done")
+
+    print("... saving the results")
+    dump_data = {'learning_rate': x,
+                 'score': scores}
+    with gzip.open('../output/learning_rate_test_mnist.pkl.gz', 'wb') as f:
+        cPickle.dump(dump_data, f)
     print("--- done")
 
 
