@@ -5,6 +5,8 @@
 
 from __future__ import print_function
 import time
+import cPickle
+import gzip
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,14 +17,16 @@ from test_mnist import test_mnist
 
 def inertia_rate_test_mnist():
     print("... trying inertia_rate test")
+    epochs = 150000
     scores, x = [], []
-    n_samples = 70000
     for ir in np.arange(0, 20) * 0.02:
         print("...... inertia_rate: {0} ".format(ir), end='')
         score, _ = test_mnist(corruption_level=0.0,
+                              noise_level=0.0,
                               learning_rate=0.3,
                               inertia_rate=ir,
-                              epochs=n_samples,
+                              nh=0.1,
+                              epochs=epochs,
                               verbose=False)
         scores.append(score)
         x.append(ir)
@@ -35,7 +39,7 @@ def inertia_rate_test_mnist():
     # for graph
     ax1 = plt.subplot()
     ax1.plot(x, scores)
-    ax1.set_title('inertia_rate and score with {0}'.format(n_samples))
+    ax1.set_title('inertia_rate and score with {0}'.format(epochs))
     ax1.set_xlabel('inertia rate level')
     ax1.set_ylabel('score')
     # for label
@@ -48,7 +52,14 @@ def inertia_rate_test_mnist():
             horizontalalignment='left',
             verticalalignment='bottom',
             transform=ax2.transAxes)
-    plt.savefig('../output/inertia_rate_test_mnist_{0}.png'.format(n_samples))
+    plt.savefig('../output/inertia_rate_test_mnist_{0}.png'.format(epochs))
+    print("--- done")
+
+    print("... saving the results")
+    dump_data = {'inertia_rate': x,
+                 'score': scores}
+    with gzip.open('../output/inertia_rate_test_mnist.pkl.gz', 'wb') as f:
+        cPickle.dump(dump_data, f)
     print("--- done")
 
 
