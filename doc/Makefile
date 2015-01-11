@@ -10,4 +10,4 @@ doc:
 
 commit:
 	git add .
-	git commit -m "Update report document"
+	git commit -m "Update report document for `git log master -1 --pretty=short --abbrev-commit`" && git push origin master
