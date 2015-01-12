@@ -5,6 +5,8 @@
 
 from __future__ import print_function
 import time
+import cPickle
+import gzip
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,18 +18,22 @@ from test_mnist import test_mnist
 def noise_level_test_mnist():
     print("... doing noise_level test")
     scores, x = [], []
-    n_samples = 70000
-    for nl in np.arange(0, 26) * 0.01:
-        print("...... noise_level: {0}".format(nh), end='')
-        score, _ = test_mnist(corruption_level=0.0
-                              noise_level=nl,
-                              learning_rate=0.3,
-                              inertia_rate=0.24,
-                              epochs=n_samples,
-                              verbose=False)
-        scores.append(score)
-        x.append(cl)
-        print("score: {0}".format(score))
+    epochs = 150000
+    for nl in np.arange(0, 13) * 0.02:
+        try:
+            print("...... noise_level: {0}".format(nl), end='')
+            score, _ = test_mnist(corruption_level=0.0,
+                                  noise_level=nl,
+                                  learning_rate=0.3,
+                                  inertia_rate=0.12,
+                                  nh=0.16,
+                                  epochs=epochs,
+                                  verbose=False)
+            scores.append(score)
+            x.append(nl)
+            print(" score: {0}".format(score))
+        except KeyboardInterrupt:
+            break
     scores = np.array(scores)
     x = np.array(x)
     print("--- done")
@@ -37,7 +43,7 @@ def noise_level_test_mnist():
     # plot graph
     ax1 = plt.subplot()
     ax1.plot(x, scores)
-    ax1.set_title('noise_level and score with {0}'.format(n_samples))
+    ax1.set_title('noise_level and score with {0}'.format(epochs))
     ax1.set_xlabel('noise_level')
     ax1.set_ylabel('score')
     # for label
@@ -50,7 +56,14 @@ def noise_level_test_mnist():
             horizontalalignment='left',
             verticalalignment='bottom',
             transform=ax2.transAxes)
-    plt.savefig('../output/noise_level_test_mnist_{0}.png'.format(n_samples))
+    plt.savefig('../output/noise_level_test_mnist_{0}.png'.format(epochs))
+    print("--- done")
+
+    print("... saving the results")
+    dump_data = {'noise_level': x,
+                 'score': scores}
+    with gzip.open('../output/noise_level_test_mnist.pkl.gz', 'wb') as f:
+        cPickle.dump(dump_data, f)
     print("--- done")
 
 
