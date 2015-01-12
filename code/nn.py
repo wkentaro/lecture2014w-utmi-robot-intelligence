@@ -26,14 +26,12 @@ class NN(object):
             learning_rate=0.3,
             inertia_rate=0.0,
             corruption_level=0.0,
-            noise_level=0.0,
             epochs=10000
             ):
         # params
         self.learning_rate = learning_rate
         self.inertia_rate = inertia_rate
         self.corruption_level = corruption_level
-        self.noise_level = noise_level
         self.epochs = epochs
 
         # activations for nodes
@@ -100,10 +98,6 @@ class NN(object):
         X_test = np.array(X_test)
         y_pred = np.zeros(len(X_test))
         for i, xt in enumerate(X_test):
-            # add noise to the x
-            p = np.random.binomial(n=1, p=1-self.noise_level, size=len(xt))
-            xt[p==0] = np.random.random(len(xt))[p==0]
-
             # get the model output
             xt = np.insert(xt, 0, 1)  # for bias
             # forward propagation

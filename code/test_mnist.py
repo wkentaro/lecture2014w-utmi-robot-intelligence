@@ -30,7 +30,7 @@ def load_data(standardize=True):
 
 
 def test_mnist(corruption_level=0.0,
-               noise_level=0.0,
+               noise_level=0.2,
                learning_rate=0.2,
                inertia_rate=0.0,
                nh=0.1,
@@ -53,9 +53,19 @@ def test_mnist(corruption_level=0.0,
     skf = StratifiedKFold(y, n_folds=3)
     scores = np.zeros(len(skf))
     for i, (train_index, test_index) in enumerate(skf):
+        # train the model
         clf.fit(X[train_index], y[train_index])
+        # add noise to the x
+        X_corrupted = X[test_index].copy()
+        p = np.random.binomial(n=1, p=1-noise_level, size=X[test_index].shape)
+        X_corrupted[p==0] = np.random.random(X_corrupted.shape)[p==0]
+        # get score
         score = clf.score(X[test_index], y[test_index])
         scores[i] = score
+
+    # stdout of the score
+    if verbose is True:
+        print scores
 
     return scores.mean(), clf
 
