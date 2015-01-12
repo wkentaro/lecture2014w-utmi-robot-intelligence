@@ -9,5 +9,6 @@ files = os.listdir('.')
 for file in files:
     base, ext = os.path.splitext(file)
     if ext in ['.png', '.jpeg', '.jpg']:
-        os.system('convert {0}.png {0}.pdf'.format(base))
-        os.system('extractbb {0}.png'.format(base))
+        os.system('convert {0} {1}.eps'.format(file, base))
+        os.system('convert {0} {1}.pdf'.format(file, base))
+        os.system('extractbb {0}'.format(file))

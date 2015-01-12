@@ -2,7 +2,7 @@ TEXFILE=$(wildcard *.tex)
 DOCBASE=$(TEXFILE:.tex=)
 
 
-doc:
+pdf:
 	platex ${DOCBASE}.tex && dvipdfmx ${DOCBASE}.dvi
 	platex ${DOCBASE}.tex && dvipdfmx ${DOCBASE}.dvi
 	open ${DOCBASE}.pdf

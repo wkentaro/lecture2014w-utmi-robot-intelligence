@@ -74,10 +74,11 @@ The MNIST database of handwritten digits
 であり, このデータは過去に様々な分類器において
 識別能力を図るために利用されている. \cite{mnist}
 図\ref{fig:plot-mnist}に実際に利用した学習データの一部を示す. 
+
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/plot_mnist.pdf}
-  \caption{MNISTの画像データ例}
+  \includegraphics[width=0.4\textwidth]{assets/img/tiled_mnist_nl0.0.eps}
+  \caption{MNISTの画像データ}
   \label{fig:plot-mnist}
 \end{figure}
 
@@ -88,87 +89,73 @@ The MNIST database of handwritten digits
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ニューラルネット学習シミュレーション}
-実験に利用したMNISTデータセットは, 28x28のグレースケールの手書き数字
-画像データである. 画像に対する前処理はなしで7000件のデータに対して,
-学習率と慣性項係数のそれぞれに関して複数の値を用いて識別正解率の変化を調べた. 
+実験に利用したMNISTは, 28 × 28ピクセルのグレースケール手書き数字
+画像の70000件のデータセットである. 
+データセットを3分割し3分の2を学習データ, 3分の1をテストデータとし, 
+以下の様なパラメータに関してモデルの性能を交差検定によって調べた. 
 
-慣性項は0に固定して, 学習率を0.02から0.38まで0.02ずつ変化させ,
-学習率と識別正解率の関係を表したのが
-図\ref{fig:learning-rate-score-var}である. 
-図から, 学習率が0.3のときに最も識別正解率が高いことがわかる. 
+なお, パラメータの検証は以下の順番で行い, 一部を覗いてそれぞれ最良であったものを
+次の検証で利用することで, 性能の向上を目指した. 
+最初のパラメータ値は, 学習率0.2, 慣性項の係数0, 
+隠れ層の数入力の0.1倍, 学習の際のノイズ0とした. 
 
-学習率を0.3に固定して, 慣性項の係数を0.0から0.38まで変化させ,
-慣性項係数と識別正解率の関係を表したのが
-図\ref{fig:inertia-rate-score-var}である. 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/learning_rate_test_mnist_70000.pdf}
-  \caption{学習率と識別正解率の関係}
-  \label{fig:learning-rate-score-var}
-\end{figure}
-\begin{figure}[htbp] 
-  \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/inertia_rate_test_mnist_70000.pdf}
-  \caption{慣性項の係数と識別正解率の関係}
-  \label{fig:inertia-rate-score-var}
-\end{figure}
+\begin{itemize}
+  \item 学習の際の繰り返し数
+  \item 学習率
+  \item 慣性項の係数
+  \item 隠れ層の数
+  \item 学習の際のノイズ率
+\end{itemize}
 
-今後の解析では学習率を0.3, 慣性項の係数を0.24として実験を行う.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ノイズによる性能変化}
-ノイズによる識別性能の変化について検証した. 
-ノイズは, ある確率で画像のピクセル値を
-ランダムな値に変化させるということで発生させた. 
-図\ref{fig:noise-test-score-var-10000}, 
-\ref{fig:noise-test-score-var-70000}
-はノイズの発生する確率と識別性能の関係を表した図である. 
-データは10000件(図\ref{fig:noise-test-score-var-10000})と
-70000件(図\ref{fig:noise-test-score-var-70000}), 
-ノイズの発生確率は0.0から0.25まで0.01ずつ変化させた. 
-図より, ノイズの確率0.04のとき識別正解率が最も高くなっていることがわかる. 
+ある確率で画像のピクセル値をランダムな値に変化させるということによって
+ノイズをテストデータに発生させ,
+予測性能を調べることでノイズの影響を検証した. 
 
-また, 10000サンプルの場合には正解率の平均が0.85721, 標準偏差が0.04707であり, 
-70000サンプルでは平均0.94010, 標準偏差0.00332であることから
-ノイズ耐性は学習データ数に大きく依存することがわかる. 
-\begin{figure}[htbp] 
-  \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/noise_test_mnist_10000.pdf}
-  \caption{ノイズと識別正解率の関係(10000サンプル)}
-  \label{fig:noise-test-score-var-10000}
-\end{figure}
-\begin{figure}[htbp] 
-  \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/noise_test_mnist_70000.pdf}
-  \caption{ノイズと識別正解率の関係(70000サンプル)}
-  \label{fig:noise-test-score-var-70000}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+図\ref{fig:noise-0.1}がノイズを10\%,
+図\ref{fig:noise-0.25}がノイズを25\%発生させたデータを, 
+画像としてプロットしたものである. 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{中間層のニューロンの役割}
-中間層のニューロンの数を変化させ, ニューロン数と識別性能の関係を表した
-のが図\ref{fig:hidden-neuron-role}である. 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_score_70000.pdf}
-  \caption{中間層ニューロン数と識別器の識別性能の関係}
-  \label{fig:hidden-neuron-role}
+  \includegraphics[width=0.4\textwidth]{assets/img/tiled_mnist_nl0.1.eps}
+  \caption{ノイズを10\%発生させたデータ}
+  \label{fig:noise-0.1}
 \end{figure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/img/tiled_mnist_nl0.25.eps}
+  \caption{ノイズを25\%発生させたデータ}
+  \label{fig:noise-0.25}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[htbp] 
-  \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.16.eps}
-  \caption{識別性能が高い場合(中間層0.16)の重み}
-  \label{fig:hidden-layer-analyze-img-0.16}
-\end{figure}
-\begin{figure}[htbp] 
-  \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.72.eps}
-  \caption{識別性能が高い場合(中間層0.72)の重み}
-  \label{fig:hidden-layer-analyze-img-0.72}
-\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{中間層のニューロンの役割}
+% 中間層のニューロンの数を変化させ, ニューロン数と識別性能の関係を表した
+% のが図\ref{fig:hidden-neuron-role}である. 
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_score_70000.pdf}
+%   \caption{中間層ニューロン数と識別器の識別性能の関係}
+%   \label{fig:hidden-neuron-role}
+% \end{figure}
+%
+% \begin{figure}[htbp] 
+%   \centering
+%   \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.16.eps}
+%   \caption{識別性能が高い場合(中間層0.16)の重み}
+%   \label{fig:hidden-layer-analyze-img-0.16}
+% \end{figure}
+% \begin{figure}[htbp] 
+%   \centering
+%   \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.72.eps}
+%   \caption{識別性能が高い場合(中間層0.72)の重み}
+%   \label{fig:hidden-layer-analyze-img-0.72}
+% \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
