@@ -60,7 +60,7 @@ def test_mnist(corruption_level=0.0,
         p = np.random.binomial(n=1, p=1-noise_level, size=X[test_index].shape)
         X_corrupted[p==0] = np.random.random(X_corrupted.shape)[p==0]
         # get score
-        score = clf.score(X[test_index], y[test_index])
+        score = clf.score(X_corrupted, y[test_index])
         scores[i] = score
 
     # stdout of the score
