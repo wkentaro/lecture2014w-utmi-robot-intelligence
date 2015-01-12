@@ -16,12 +16,14 @@ from test_mnist import test_mnist
 def corruption_level_test_mnist():
     print("... doing corruption_level test")
     scores, x = [], []
-    n_samples = 70000
-    for cl in np.arange(0, 26) * 0.01:
-        print("...... corruption_level: {0}".format(nh), end='')
+    n_samples = 150000
+    for cl in np.arange(0, 6) * 0.05:
+        print("...... corruption_level: {0}".format(cl), end='')
         score, _ = test_mnist(corruption_level=cl,
+                              noise_level=0.0,
                               learning_rate=0.3,
-                              inertia_rate=0.24,
+                              inertia_rate=0.12,
+                              nh=0.16,
                               epochs=n_samples,
                               verbose=False)
         scores.append(score)
