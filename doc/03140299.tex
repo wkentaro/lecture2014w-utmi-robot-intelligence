@@ -107,30 +107,57 @@ The MNIST database of handwritten digits
   \item 学習の際のノイズ率
 \end{itemize}
 
+図\ref{fig:epoch-test}が学習の際の繰り返し数を変化させ,
+各試行での性能を調べたものである. 
+この結果から, 性能は繰り返し回数に従って良くなるということがわかる. 
+今回の実験では結果として現れなかったが,
+繰り返し回数をさらに増やしていくと, 
+性能の向上が打ち止めになり, 過学習によって逆に性能が下がるということが
+予想される. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/epoch_test_mnist.eps}
   \caption{学習の際の繰り返し数と性能の関係}
   \label{fig:epoch-test}
 \end{figure}
+
+図\ref{fig:learning-rate-test}が学習率を0.02から0.4まで変化させ, 
+性能の変化を調べたものである. 
+この結果から, 0.25以降は変化が小さいことがわかる. 
+最良の性能を出したのは, 学習率が0.3の時であった. 
+また, 0.2のときのように性能が大きく下がるパラメータ値もあるため, 
+パラメータを変化させて性能を検証することの必要性がわかる. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/learning_rate_test_mnist.eps}
   \caption{学習率と性能の関係}
   \label{fig:learning-rate-test}
 \end{figure}
+
+図\ref{fig:inertia-rate-test}が慣性項の係数を0.0から0.38まで変化させ, 
+性能の変化を調べたものである. 
+これは学習率を0.3としたときに調べたものであり, 
+0.12のとき最も性能が高かった. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/inertia_rate_test_mnist.eps}
   \caption{慣性項の係数と性能の関係}
   \label{fig:inertia-rate-test}
 \end{figure}
+
+図\ref{fig:hidden-layer-analyze}は隠れ層のニューロン数を入力層に対する比率
+として変化させたときに性能がどう変わるかを調べたものである. 
+グラフから, 隠れ層のニューロン数は今回のデータでは0.15あたりが最適で
+あるとわかる. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/n_hidden_test_mnist_score.eps}
-  \caption{隠れ層の数と性能の関係}
+  \caption{隠れ層のニューロン数と性能の関係}
   \label{fig:hidden-layer-analyze}
 \end{figure}
+
+% 図\ref{fig:corruption-level-test}は学習の際のノイズの確率を変化させ, 
+% それに伴う性能の変化を調べたものである. 
 % \begin{figure}[htbp]
 %   \centering
 %   \includegraphics[width=0.45\textwidth]{assets/img/corruption_level_test_mnist.eps}
@@ -179,33 +206,41 @@ The MNIST database of handwritten digits
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{中間層のニューロンの役割}
-% 中間層のニューロンの数を変化させ, ニューロン数と識別性能の関係を表した
-% のが図\ref{fig:hidden-neuron-role}である. 
-% \begin{figure}[htbp]
-%   \centering
-%   \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_score_70000.pdf}
-%   \caption{中間層ニューロン数と識別器の識別性能の関係}
-%   \label{fig:hidden-neuron-role}
-% \end{figure}
-%
-% \begin{figure}[htbp] 
-%   \centering
-%   \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.16.eps}
-%   \caption{識別性能が高い場合(中間層0.16)の重み}
-%   \label{fig:hidden-layer-analyze-img-0.16}
-% \end{figure}
-% \begin{figure}[htbp] 
-%   \centering
-%   \includegraphics[width=0.4\textwidth]{assets/img/hidden_layer_analyze_mnist_image_nsamp70000_nh0.72.eps}
-%   \caption{識別性能が高い場合(中間層0.72)の重み}
-%   \label{fig:hidden-layer-analyze-img-0.72}
-% \end{figure}
+\section{中間層のニューロンの役割}
+中間層のニューロンの数を変化させ, ニューロン数と識別性能の関係を表した
+のが図\ref{fig:hidden-layer-analyze}である. 
+このとき, 性能が最も高かった場合と低かった場合についてその重みを
+図\ref{fig:hidden-layer-analyze-img-0.16}と
+図\ref{fig:hidden-layer-analyze-img-0.72}にプロットした. 
+
+それぞれの図を比較すると, 性能が高かったモデルの重みの方がよりエッジが
+はっきりしており, 模様のようなものが見える. 
+重みのうち, 値が大きくなっている部分は各入力刺激(入力画像)に対する
+受容野のような働きをしており, 結果から, 
+その働きが顕著になっている方がより正確な出力を出すことができると言える. 
+\begin{figure}[htbp] 
+  \centering
+  \includegraphics[width=0.45\textwidth]{assets/img/n_hidden_test_mnist_image_nsmpl150000_nh0.16.eps}
+  \caption{識別性能が高い場合(中間層0.16)の重み}
+  \label{fig:hidden-layer-analyze-img-0.16}
+\end{figure}
+\begin{figure}[htbp] 
+  \centering
+  \includegraphics[width=0.45\textwidth]{assets/img/n_hidden_test_mnist_image_nsmpl150000_nh0.72.eps}
+  \caption{識別性能が高い場合(中間層0.72)の重み}
+  \label{fig:hidden-layer-analyze-img-0.72}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{画像特徴抽出と性能変化}
+画像の特徴抽出としてオートエンコーダを用い, その隠れ層の値を入力として, 
+性能を調べた. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{講義の感想}
+知的な機械を実現するということを考えさせられる授業で, 現状実現している部分
+とその限界, そしてそれを解決するためのアプローチについて丁寧に説明が
+あり, 自分で考えながら聞くことができたので力になったと思う. 
+必要なところでは黒板を使って説明があるが, 個人的にはもう少し黒板を使った
+授業の部分を増やしてほしいと感じた. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
