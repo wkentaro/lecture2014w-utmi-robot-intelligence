@@ -5,23 +5,26 @@
 
 from __future__ import print_function
 import sys
+import cPickle
+import gzip
 
 import numpy as np
-import cv2
+import theano.tensor as T
 
 from sklearn.datasets import fetch_mldata
 from sklearn.preprocessing import LabelBinarizer
-from sklearn.cross_validation import train_test_split
+from sklearn.cross_validation import StratifiedKFold
 from sklearn.metrics import (
         classification_report,
         accuracy_score,
         confusion_matrix
         )
+import matplotlib.pyplot as plt
 
 import nn
+from utils import tile_raster_images
 
 from autoencoder import AutoEncoder
-
 
 
 def feature_test_mnist(verbose=True):
@@ -31,23 +34,15 @@ def feature_test_mnist(verbose=True):
     X_origin = mnist.data
     y = mnist.target
     target_names = np.unique(y)
-    print("--- done")
-
-    print("... random sampling & standardizing")
-    p = np.random.randint(0, len(X_origin), 10000)
-    X_origin = X_origin[p]
-    y = y[p]
     # standardize
     X_origin = X_origin.astype(np.float64)
     X_origin /= X_origin.max()
-    # print X_origin.min(), X_origin.mean(), X_origin.max(), X_origin.shape
     print("--- done")
 
     print("... encoding with denoising auto-encoder")
     # get feature & create input
-    import theano.tensor as T
     ae = AutoEncoder(X=X_origin,
-                     hidden_size=500,
+                     hidden_size=22*22,
                      activation_function=T.nnet.sigmoid,
                      output_function=T.nnet.sigmoid)
     ae.train(n_epochs=20, mini_batch_size=20)
@@ -56,34 +51,44 @@ def feature_test_mnist(verbose=True):
 
     # get classifier
     clf = nn.NN(ni=X.shape[1],
-                nh=int(0.1*X.shape[1]),
+                nh=int(0.16*X.shape[1]),
                 no=len(target_names),
                 learning_rate=0.3,
-                inertia_rate=0.0,
+                inertia_rate=0.12,
                 corruption_level=0.0,
-                noise_level=0.0,
-                epochs=10000)
+                epochs=150000)
 
-    # split data to train & test
-    X_train, X_test, y_train, y_test = train_test_split(X, y)
+    # cross validation
+    skf = StratifiedKFold(y, n_folds=3)
+    scores = np.zeros(len(skf))
+    for i, (train_index, test_index) in enumerate(skf):
+        # train the model
+        clf.fit(X[train_index], y[train_index])
+        # get score
+        score = clf.score(X[test_index], y[test_index])
+        scores[i] = score
 
-    # convert train data to 1-of-k expression
-    label_train = LabelBinarizer().fit_transform(y_train)
-    label_test = LabelBinarizer().fit_transform(y_test)
-
-    clf.fit(X=X_train,
-            y_train=label_train,
-            )
-
-    y_pred = clf.predict(X_test)
-
-    score = accuracy_score(y_true=y_test, y_pred=y_pred)
+    # stdout of the score
     if verbose is True:
-        print(classification_report(y_true=y_test, y_pred=y_pred))
-        print(confusion_matrix(y_true=y_test, y_pred=y_pred))
-        print(score)
+        print(scores)
 
-    return score, clf
+    print("... plotting the autoencoder hidden layer")
+    # get tiled image
+    p = np.random.randint(0, len(X), 400)
+    tile = tile_raster_images(X[p], (22,22), (20,20), scale_rows_to_unit_interval=True, output_pixel_vals=True)
+    # save tiled data's image
+    plt.axis('off')
+    plt.title('MNIST dataset')
+    plt.imshow(tile, cmap=plt.cm.gray_r)
+    plt.savefig('../output/tiled_autoencoder_hidden_mnist.png')
+    print("--- done")
+
+    print("... saving the results")
+    data = {'scores': scores,
+            'hidden layer': X,}
+    with gzip.open('../output/feature_test_mnist.pkl.gz', 'wb') as f:
+        cPickle.dump(data, f)
+    print("--- done")
 
 
 if __name__ == '__main__':
