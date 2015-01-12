@@ -77,7 +77,7 @@ The MNIST database of handwritten digits
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/tiled_mnist_nl0.0.eps}
+  \includegraphics[width=0.45\textwidth]{assets/img/tiled_mnist_nl0.0.eps}
   \caption{MNISTの画像データ}
   \label{fig:plot-mnist}
 \end{figure}
@@ -107,18 +107,36 @@ The MNIST database of handwritten digits
   \item 学習の際のノイズ率
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/epoch_test_mnist.eps}
+  \includegraphics[width=0.45\textwidth]{assets/img/epoch_test_mnist.eps}
   \caption{学習の際の繰り返し数と性能の関係}
   \label{fig:epoch-test}
 \end{figure}
-\begin{figure}
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/learning_rate_test_mnist_150000.eps}
+  \includegraphics[width=0.45\textwidth]{assets/img/learning_rate_test_mnist.eps}
   \caption{学習率と性能の関係}
   \label{fig:learning-rate-test}
 \end{figure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.45\textwidth]{assets/img/inertia_rate_test_mnist.eps}
+  \caption{慣性項の係数と性能の関係}
+  \label{fig:inertia-rate-test}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.45\textwidth]{assets/img/n_hidden_test_mnist_score.eps}
+  \caption{隠れ層の数と性能の関係}
+  \label{fig:hidden-layer-analyze}
+\end{figure}
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.45\textwidth]{assets/img/corruption_level_test_mnist.eps}
+%   \caption{学習の際のノイズと性能の関係}
+%   \label{fig:corruption-level-test}
+% \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -134,16 +152,30 @@ The MNIST database of handwritten digits
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/tiled_mnist_nl0.1.eps}
+  \includegraphics[width=0.45\textwidth]{assets/img/tiled_mnist_nl0.1.eps}
   \caption{ノイズを10\%発生させたデータ}
   \label{fig:noise-0.1}
 \end{figure}
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.4\textwidth]{assets/img/tiled_mnist_nl0.25.eps}
+  \includegraphics[width=0.45\textwidth]{assets/img/tiled_mnist_nl0.25.eps}
   \caption{ノイズを25\%発生させたデータ}
   \label{fig:noise-0.25}
 \end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.45\textwidth]{assets/img/noise_level_test_mnist_cl0.0.eps}
+  \caption{ノイズと性能の関係}
+  \label{fig:noise-level-test-cl0.0}
+\end{figure}
+
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.45\textwidth]{assets/img/noise_level_test_mnise_cl0.1.eps}
+%   \caption{ノイズと性能の関係(10\%のノイズを発生させたデータで学習させた場合)}
+%   \label{fig:noise-level-test-cl0.1}
+% \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
