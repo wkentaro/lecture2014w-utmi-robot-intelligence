@@ -19,10 +19,11 @@ def noise_level_test_mnist():
     print("... doing noise_level test")
     scores, x = [], []
     epochs = 150000
+    corruption_level=0.1
     for nl in np.arange(0, 13) * 0.02:
         try:
             print("...... noise_level: {0}".format(nl), end='')
-            score, _ = test_mnist(corruption_level=0.0,
+            score, _ = test_mnist(corruption_level=corruption_level,
                                   noise_level=nl,
                                   learning_rate=0.3,
                                   inertia_rate=0.12,
@@ -56,7 +57,7 @@ def noise_level_test_mnist():
             horizontalalignment='left',
             verticalalignment='bottom',
             transform=ax2.transAxes)
-    plt.savefig('../output/noise_level_test_mnist_{0}.png'.format(epochs))
+    plt.savefig('../output/noise_level_test_mnist_nsmpl{0}_cl{1}.png'.format(epochs, corruption_level))
     print("--- done")
 
     print("... saving the results")
