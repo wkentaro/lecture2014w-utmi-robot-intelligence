@@ -172,6 +172,7 @@ The MNIST database of handwritten digits
 ある確率で画像のピクセル値をランダムな値に変化させるということによって
 ノイズをテストデータに発生させ, 予測性能を調べることでノイズの影響を検証した. 
 
+図\ref{fig:plot-mnist}がノイズなし, 
 図\ref{fig:noise-0.1}がノイズを10\%,
 図\ref{fig:noise-0.25}がノイズを25\%発生させたデータを, 
 画像としてプロットしたものである. 
@@ -240,17 +241,48 @@ The MNIST database of handwritten digits
   \label{fig:hidden-layer-analyze-img-0.72}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{画像特徴抽出と性能変化}
-画像の特徴抽出としてオートエンコーダを用い, その隠れ層の値を入力として, 
-性能を調べた. 
-精度は0.9474151であった. 
+\section{画像特徴抽出と性能変化}\label{section:feature_test}
+画像の特徴抽出としてオートエンコーダを用い, その中間層の値を入力として, 
+性能を調べた. パラメータは以下の様に設定した. 
+\begin{itemize}
+  \item オートエンコーダの中間層の数: 484
+  \item パーセプトロンの中間層の数: 484 * 0.16
+  \item 学習率: 0.3
+  \item 慣性項の係数: 0.12
+  \item 学習データへのノイズ: 0.0
+  \item 学習の繰り返し回数: 150000
+\end{itemize}
+精度は0.947であった. パーセプトロンのパラメータを同じにした場合, オートエンコーダによる
+前処理なしの場合の精度0.963より低くなっているが, パラメータの調整によってより精度が高くなる
+ことが期待される. 
+
+また各画像データのサイズは, 前処理なしの場合には28 × 28 = 784であったが, 
+オートエンコーダによる前処理を行った場合は22 × 22 = 484であり, 
+約6割のデータ量で大きく精度を落とすことなく予測ができている. 
+これより, 識別器への入力データに対する
+オートエンコーダの圧縮機としての機能\cite{autoencoder}
+が十分に働いていると言える. 
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/tiled_autoencoder_hidden_mnist.eps}
-  \caption{アートエンコーダの中間層}
+  \caption{アートエンコーダの中間層(パーセプトロンへの入力データ)}
   \label{fig:autoencoder-hidden}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{今後の課題}
+今回の実験では, モデルのパラメータと性能の関係の検証に関して, 
+1つのパラメータのみを変化させるという手法を取った. 
+より信頼性の高い方法として, Grid Searchを用いた方法が挙げられ, 
+組み合わせも含めて最適なパラメータ値を選択することで, 
+より精度の高いモデルの構築が可能だと言える. 
+
+また\ref{section:feature_test}において, オートエンコーダの
+パラメータ調整を行う必要や,
+前処理ありの場合も前処理なしの場合と同じパラメータ
+のパーセプトロンモデルを利用して, 同様に最適であるのかということ
+を調べる必要がある. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{講義の感想}
@@ -260,7 +292,6 @@ The MNIST database of handwritten digits
 必要なところでは黒板を使って説明があるが, 個人的にはもう少し黒板を使った
 授業の部分を増やしてほしいと感じた. 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % to insert bibliography %
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -269,6 +300,7 @@ The MNIST database of handwritten digits
   \bibitem{mnist} Yann LeCun, Corinna Cortes, Christopher J.C. Burges,
     ``MNIST handwritten digit database, Yann LeCun, Corinna Cortes and Chris Burges'',
     http://yann.lecun.com/exdb/mnist/
+  \bibitem{autoencoder} http://deeplearning.net/tutorial/dA.html
 \end{thebibliography}
 
 %%%%%%%%%%%%%%%%
