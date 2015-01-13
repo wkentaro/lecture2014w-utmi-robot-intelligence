@@ -71,4 +71,11 @@ def test_mnist(corruption_level=0.0,
 
 
 if __name__ == '__main__':
-    test_mnist(verbose=True)
+    test_mnist(corruption_level=0.0,
+               noise_level=0.0,
+               learning_rate=0.3,
+               inertia_rate=0.12,
+               nh=0.16,
+               epochs=700000,
+               verbose=True,
+               )
