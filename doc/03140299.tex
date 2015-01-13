@@ -113,7 +113,7 @@ The MNIST database of handwritten digits
 今回の実験では結果として現れなかったが,
 繰り返し回数をさらに増やしていくと, 
 性能の向上が打ち止めになり, 過学習によって逆に性能が下がるということが
-予想される. 
+予想される. この後の学習では, 繰り返しの数を150000として解析した. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/epoch_test_mnist.eps}
@@ -170,13 +170,13 @@ The MNIST database of handwritten digits
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ノイズによる性能変化}
 ある確率で画像のピクセル値をランダムな値に変化させるということによって
-ノイズをテストデータに発生させ,
-予測性能を調べることでノイズの影響を検証した. 
+ノイズをテストデータに発生させ, 予測性能を調べることでノイズの影響を検証した. 
 
 図\ref{fig:noise-0.1}がノイズを10\%,
 図\ref{fig:noise-0.25}がノイズを25\%発生させたデータを, 
 画像としてプロットしたものである. 
-
+ノイズを25\%発生させた場合でも, 人間であれば十分に手書き文字を判別することができる
+程度である. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/tiled_mnist_nl0.1.eps}
@@ -190,6 +190,9 @@ The MNIST database of handwritten digits
   \label{fig:noise-0.25}
 \end{figure}
 
+ノイズを変化させ識別器の性能を調べたのが図\ref{fig:noise-level-test-cl0.0}である. 
+グラフより, テストデータに対するノイズの量を増やすにつれて性能も低下する事がわかる. 
+($\mu$: スコア平均, $\sigma$: スコア標準偏差)
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/noise_level_test_mnist_cl0.0.eps}
@@ -197,6 +200,12 @@ The MNIST database of handwritten digits
   \label{fig:noise-level-test-cl0.0}
 \end{figure}
 
+図\ref{fig:noise-level-test-cl0.1}は学習データにランダムなノイズを10\%加えた識別器に, 
+ノイズ量を変えたテストデータを識別させた場合のスコアの変化を示したものである.
+図\ref{fig:noise-level-test-cl0.0}と比較すると, テストデータのノイズを増やしても性能を
+保っており, スコアの標準偏差も小さいためノイズ耐性が高いといえる. 
+つまりモデルのノイズ耐性は, 学習データにノイズが存在するかどうかに大きく影響されることが
+わかる.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/noise_level_test_mnist_cl0.1.eps}
