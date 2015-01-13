@@ -45,7 +45,7 @@ def feature_test_mnist(verbose=True):
                      hidden_size=22*22,
                      activation_function=T.nnet.sigmoid,
                      output_function=T.nnet.sigmoid)
-    ae.train(n_epochs=20, mini_batch_size=20)
+    ae.train(n_epochs=5, mini_batch_size=20)
     X = ae.get_hidden(data=X_origin)[0]
     print("--- done")
 
