@@ -75,7 +75,10 @@ def feature_test_mnist(verbose=True):
     print("... plotting the autoencoder hidden layer")
     # get tiled image
     p = np.random.randint(0, len(X), 400)
-    tile = tile_raster_images(X[p], (22,22), (20,20), scale_rows_to_unit_interval=True, output_pixel_vals=True)
+    tile = tile_raster_images(X[p], (22,22), (20,20),
+            scale_rows_to_unit_interval=True,
+            output_pixel_vals=True,
+            tile_spacing=(1,1))
     # save tiled data's image
     plt.axis('off')
     plt.title('MNIST dataset')
