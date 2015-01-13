@@ -84,7 +84,7 @@ The MNIST database of handwritten digits
 
 また, ノイズを加えた場合の性能変化, ノイズ耐性, 
 中間ニューロンの役割, オートエンコーダを利用した画像特徴抽出による
-識別性能変化について考察した. 
+識別性能変化について調べた. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,7 +157,8 @@ The MNIST database of handwritten digits
 \end{figure}
 
 図\ref{fig:corruption-level-test}は学習の際のノイズの確率を変化させ, 
-それに伴う性能の変化を調べたものである. 
+それに伴う性能の変化を調べたものである. 学習の際のノイズを増やすにつれて性能が
+下がっていることがわかる. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/corruption_level_test_mnist.eps}
@@ -206,7 +207,8 @@ The MNIST database of handwritten digits
 図\ref{fig:noise-level-test-cl0.0}と比較すると, テストデータのノイズを増やしても性能を
 保っており, スコアの標準偏差も小さいためノイズ耐性が高いといえる. 
 つまりモデルのノイズ耐性は, 学習データにノイズが存在するかどうかに大きく影響されることが
-わかる.
+わかる.  モデルの学習の際にデータにノイズを加えるかどうかは, 実際に利用する際にノイズが
+どれだけ含まれるかによって選択するべきであると言える. 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{assets/img/noise_level_test_mnist_cl0.1.eps}
@@ -246,7 +248,7 @@ The MNIST database of handwritten digits
 性能を調べた. パラメータは以下の様に設定した. 
 \begin{itemize}
   \item オートエンコーダの中間層の数: 484
-  \item パーセプトロンの中間層の数: 484 * 0.16
+  \item パーセプトロンの中間層の数: 484 × 0.16
   \item 学習率: 0.3
   \item 慣性項の係数: 0.12
   \item 学習データへのノイズ: 0.0
